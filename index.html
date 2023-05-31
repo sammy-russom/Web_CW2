@@ -243,3 +243,38 @@
                 }
                 return false
             },
+            filter(){
+                if (this.criteria != "all") {
+                    return this.filterItems.sort((a,b)=>{
+                        if (a[this.criteria] > b[this.criteria]) return this.order == "ascending" ? 1 : -1
+                        if (a[this.criteria] < b[this.criteria]) return this.order == "ascending" ? -1 : 1
+                        return 0
+                    })
+                }
+                return this.filterItems
+            },
+            search(){
+                if (this.query.trim() != "") {
+                    fetch(`http://localhost:3000/collection/lessons/${this.criteria}/${this.query}`)
+                    .then(res => res.json())
+                    .then(res => {
+                        app.filterItems = res.map(x => {
+                            x["image"] = `http://localhost:3000/${x["image"]}`
+                            return x
+                        })
+                    }).catch((error) =>{
+                    })
+                }else{
+                    fetch(`http://localhost:3000/collection/lessons`)
+                    .then(res => res.json())
+                    .then(res => {
+                        app.subjects = res.map(x => {
+                            x["image"] = `http://localhost:3000/${x["image"]}`
+                        })
+                        app.filterItems = res
+                    })
+                }
+                
+                return true
+            }
+        },

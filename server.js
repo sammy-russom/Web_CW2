@@ -102,3 +102,10 @@ app.get('/collection/:collectionName/:criteria/:query', (req, res,next) => {
             break;
     }
 });
+// retrieve all objects from a collection
+app.get('/collection/:collectionName',(req,res,next) => {
+    req.collection.find({}).toArray((e,results)=>{
+        if(e) return next(e)
+        res.send(results)
+    })
+})

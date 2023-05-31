@@ -278,3 +278,24 @@
                 return true
             }
         },
+        methods:{
+            addToCart(subject){
+                if (subject.spaces > 0) {
+                    subject.spaces--
+                    const data ={
+                        "cart_id": `${subject.lesson[0]}`+`-${subject.location[0]}-`+Math.ceil(Math.random()*10000),//adding an item to a cart while generating unique id for all items 
+                        "item": subject
+                    }
+                    this.cart.push(data)
+                }
+            },
+            removeFromCart(cart_item){
+                cart_item.spaces++
+                for(let i = 0; i < this.cart.length; i++){
+                    const item = this.cart[i]
+                    if(cart_item.id == item.id){
+                        this.cart.splice(i,1)
+                        break;
+                    }
+                }
+            },

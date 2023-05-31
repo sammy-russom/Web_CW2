@@ -109,3 +109,11 @@ app.get('/collection/:collectionName',(req,res,next) => {
         res.send(results)
     })
 })
+//Adding to the collection
+app.post('/collection/:collectionName', (req, res, next) => {
+    req.collection.insertOne(req.body, (e, results) =>
+      {
+       if (e) return next(e) 
+       res.send(results.ops)
+     })
+})

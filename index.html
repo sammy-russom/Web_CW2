@@ -299,3 +299,61 @@
                     }
                 }
             },
+            submit_cart(){
+                let data = {}
+                for (let i = 0; i < this.cart.length; i++) {
+                    const item = this.cart[i].item;
+                    if (!data[`${item["_id"]}`]) {
+                        data[`${item["_id"]}`] = {
+                            "spaces":1,
+                            "item":item
+                        }
+                    }else{
+                        data[`${item["_id"]}`]["spaces"]++
+                    }
+                }
+                const keys = Object.keys(data)
+                const values = Object.values(data)
+                fetch(`http://localhost:3000/collection/orders`,{
+                    method:'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        "name":this.userData["name"],
+                        "phone":this.userData["phone"],
+                    })
+                })
+                .then(result => result.json())
+                .then(result =>{
+                    if (result.length == 1) {
+                        fetch(`http://localhost:3000/collection/orders/${result[0]["_id"]}`,{
+                            method:'PUT',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({"items":values})
+                        }).then(result => result.json())
+                        .then(result => {
+                            if(result["msg"] == "success"){
+                                for (let i = 0; i < keys.length; i++) {
+                                    const key = keys[i];
+                                    const value = values[i];
+                                    fetch(`http://localhost:3000/collection/lessons/${key}`,{
+                                        method:'PUT',
+                                        headers: {
+                                            'Content-Type': 'application/json'
+                                        },
+                                        body: JSON.stringify({"spaces":value["item"].spaces})
+                                    })
+                                }
+                                this.cart = []
+                                this.showSubjects = true
+                            }else{
+                                alert("Order failed")
+                            }
+                        })
+                    }
+                }).catch(err =>{
+                    console.log(err);
+                });

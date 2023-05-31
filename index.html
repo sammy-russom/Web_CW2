@@ -91,3 +91,25 @@
         }
     </style>
 </head>
+<body>
+    <div id="app" class="display-flex-col width-height">
+        <header class="display-flex-row">
+            <h1>{{sitename}}</h1>
+            <div v-if="can_showSubjects">
+                <button  v-if="canRemoveFromCart" v-on:click="checkout">
+                    {{cartItemCount}}
+                    <i class="bx bx-cart"></i>
+                    Checkout
+                </button>
+                <button disabled="disabled" v-else>
+                    {{cartItemCount}}
+                    <i class="bx bx-cart"></i>
+                </button>
+            </div>
+            <div v-else>
+                <button v-on:click="checkout">
+                    <i class='bx bx-left-arrow-alt'></i>
+                    Back
+                </button>
+            </div>
+        </header>

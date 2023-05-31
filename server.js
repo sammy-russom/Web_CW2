@@ -127,3 +127,11 @@ app.put('/collection/:collectionName/:id', (req,res,next) => {
               res.send(results ? {msg:'success'} : {msg:'error'})
        })
 })
+app.use(function(
+    request, response) 
+    {response.status(404).send("Page not found!");
+});
+
+app.listen(3000, function () {
+    console.log("Express.js listening on http://localhost:3000");
+})

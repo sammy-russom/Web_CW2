@@ -214,3 +214,32 @@
         </main>
     </div>
 </body>
+<script>
+    var app = new Vue({
+        el:"#app",
+        created:()=>{
+            fetch(`http://localhost:3000/collection/lessons`)
+            .then(res => res.json())
+            .then(res => {
+                app.subjects = res.map(x => {
+                    x["image"] = `http://localhost:3000/${x["image"]}`
+                })
+                app.filterItems = res
+            }) 
+        },
+        computed:{
+            can_showSubjects(){
+                return this.showSubjects
+            },
+            cartItemCount(){
+                return this.cart.length || "Empty";
+            },
+            canRemoveFromCart(){
+                return this.cart.length > 0
+            },
+            canCheckout(){
+                if(this.userData.phone.match(/^[0-9]+$/) != null & this.userData.name.match(/^[A-Za-z\s]+$/) != null){
+                    return true
+                }
+                return false
+            },

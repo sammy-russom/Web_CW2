@@ -357,3 +357,33 @@
                 }).catch(err =>{
                     console.log(err);
                 });
+                alert("Submitted cart")
+
+            },
+            checkout(){
+                this.showSubjects = this.showSubjects ? false : true
+            },
+            changeCriteria(criteria){
+                this.criteria = criteria
+            },
+            changeOrder(order){
+                this.order = order
+            }
+        },
+        data:{
+            sitename:"Web Academy",
+            criteria:"lesson",
+            order:"ascending",
+            query:"",
+            cart: [],
+            showSubjects:true,
+            subjects:[],
+            filterItems:[],
+            userData:{
+                name:"",
+                phone:"",
+            },
+        }
+    })
+</script>
+</html>

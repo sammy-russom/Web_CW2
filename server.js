@@ -117,3 +117,13 @@ app.post('/collection/:collectionName', (req, res, next) => {
        res.send(results.ops)
      })
 })
+//Updating Collection
+app.put('/collection/:collectionName/:id', (req,res,next) => {
+    req.collection.update(
+      {_id: new ObjectID(req.params.id)},
+          {$set: req.body},
+          {safe:true, multi:false}, (e,results) => {
+              if (e) return next(e)
+              res.send(results ? {msg:'success'} : {msg:'error'})
+       })
+})
